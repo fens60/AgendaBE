@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @RestController
 @RequestMapping("/api/usuario")
 public class LoginController {
     @Autowired
     private LoginService loginService;
-    @GetMapping(value="/LOGIN")
+    @GetMapping(value="/usuarios")
     public ResponseEntity<Object> get(){
         Map<String, Object> map = new HashMap<String, Object>();
         try {
@@ -26,7 +27,7 @@ public class LoginController {
             return new ResponseEntity<>( map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping(value="/LOGIN/{id}")
+    @GetMapping(value="/usuarios/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id){
         try {
             Login data = loginService.findById(id);
@@ -38,11 +39,11 @@ public class LoginController {
             return new ResponseEntity<>( map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping(value="/LOGIN")
-    public ResponseEntity<Object> create(@RequestBody Login provincia){
+    @PostMapping(value="/usuarios")
+    public ResponseEntity<Object> create(@RequestBody Login login){
         Map<String, Object> map = new HashMap<String, Object>();
         try {
-            Login res = loginService.save(provincia);
+            Login res = loginService.save(login);
             return new ResponseEntity<Object>(res,HttpStatus.OK);
         }
         catch (Exception e) {
@@ -50,15 +51,14 @@ public class LoginController {
             return new ResponseEntity<>( map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping("/LOGIN/{id}")
-    public ResponseEntity<Object> update(@RequestBody Login provincia,
-                                         @PathVariable Long id){
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> update(@RequestBody Login login, @PathVariable Long id){
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             Login currentLogin = loginService.findById(id);
-            currentLogin.setEmail(provincia.getEmail());
-            currentLogin.setClave(provincia.getClave());
-            currentLogin.setVigencia(provincia.getVigencia());
+            currentLogin.setEmail(login.getEmail());
+            currentLogin.setClave(login.getClave());
+            currentLogin.setVigencia(login.getVigencia());
             Login res = loginService.save(currentLogin);
             return new ResponseEntity<Object>(res,HttpStatus.OK);
         }
@@ -67,7 +67,7 @@ public class LoginController {
             return new ResponseEntity<>( map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @DeleteMapping("/LOGIN/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id){
         Map<String, Object> map = new HashMap<String, Object>();
         try {
