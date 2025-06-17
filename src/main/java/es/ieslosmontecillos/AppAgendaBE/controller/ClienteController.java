@@ -1,7 +1,7 @@
 package es.ieslosmontecillos.AppAgendaBE.controller;
 
-import es.ieslosmontecillos.AppAgendaBE.entity.Persona;
-import es.ieslosmontecillos.AppAgendaBE.service.PersonaService;
+import es.ieslosmontecillos.AppAgendaBE.entity.Cliente;
+import es.ieslosmontecillos.AppAgendaBE.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +13,15 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
-public class PersonaController {
+public class ClienteController {
     @Autowired
-    private PersonaService personaService;
+    private ClienteService clienteService;
 
-    @GetMapping(value = "/PERSONA")
+    @GetMapping(value = "/CLIENTE")
     public ResponseEntity<Object> get() {
         Map<String, Object> map = new HashMap<>();
         try {
-            List<Persona> list = personaService.findAll();
+            List<Cliente> list = clienteService.findAll();
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (Exception e) {
             map.put("message", e.getMessage());
@@ -29,10 +29,10 @@ public class PersonaController {
         }
     }
 
-    @GetMapping(value = "/PERSONA/{id}")
+    @GetMapping(value = "/CLIENTE/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id) {
         try {
-            Persona data = personaService.findById(id);
+            Cliente data = clienteService.findById(id);
             return new ResponseEntity<Object>(data, HttpStatus.OK);
         } catch (Exception e) {
             Map<String, Object> map = new HashMap<String, Object>();
@@ -41,11 +41,11 @@ public class PersonaController {
         }
     }
 
-    @PostMapping(value = "/PERSONA")
-    public ResponseEntity<Object> create(@RequestBody Persona persona) {
+    @PostMapping(value = "/CLIENTE")
+    public ResponseEntity<Object> create(@RequestBody Cliente cliente) {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
-            Persona res = personaService.save(persona);
+            Cliente res = clienteService.save(cliente);
             return new ResponseEntity<Object>(res, HttpStatus.OK);
         } catch (Exception e) {
             map.put("message", e.getMessage());
@@ -53,25 +53,25 @@ public class PersonaController {
         }
     }
 
-    @PutMapping("/PERSONA/{id}")
-    public ResponseEntity<Object> update(@RequestBody Persona persona, @PathVariable Long id) {
+    @PutMapping("/CLIENTE/{id}")
+    public ResponseEntity<Object> update(@RequestBody Cliente cliente, @PathVariable Long id) {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
-            Persona currentPersona = personaService.findById(id);
+            Cliente currentCliente = clienteService.findById(id);
 
-            currentPersona.setNombre(persona.getNombre());
-            currentPersona.setApellidos(persona.getApellidos());
-            currentPersona.setTelefono(persona.getTelefono());
-            currentPersona.setEmail(persona.getEmail());
-            currentPersona.setProvincia(persona.getProvincia());
-            currentPersona.setFecha(persona.getFecha());
-            currentPersona.setNumHijos(persona.getNumHijos());
-            currentPersona.setEstadoCivil(persona.getEstadoCivil());
-            currentPersona.setSalario(persona.getSalario());
-            currentPersona.setJubilado(persona.getJubilado());
-            currentPersona.setFoto(persona.getFoto());
+            currentCliente.setNombre(cliente.getNombre());
+            currentCliente.setApellidos(cliente.getApellidos());
+            currentCliente.setTelefono(cliente.getTelefono());
+            currentCliente.setEmail(cliente.getEmail());
+            currentCliente.setProvincia(cliente.getProvincia());
+            currentCliente.setFecha(cliente.getFecha());
+            currentCliente.setNumHijos(cliente.getNumHijos());
+            currentCliente.setEstadoCivil(cliente.getEstadoCivil());
+            currentCliente.setSalario(cliente.getSalario());
+            currentCliente.setJubilado(cliente.getJubilado());
+            currentCliente.setFoto(cliente.getFoto());
 
-            Persona res = personaService.save(currentPersona);
+            Cliente res = clienteService.save(currentCliente);
             return new ResponseEntity<Object>(res, HttpStatus.OK);
         } catch (Exception e) {
             map.put("message", e.getMessage());
@@ -79,12 +79,12 @@ public class PersonaController {
         }
     }
 
-    @DeleteMapping("/PERSONA/{id}")
+    @DeleteMapping("/CLIENTE/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
-            Persona currentPersona = personaService.findById(id);
-            personaService.delete(currentPersona);
+            Cliente currentCliente = clienteService.findById(id);
+            clienteService.delete(currentCliente);
             map.put("deleted", true);
             return new ResponseEntity<Object>(map, HttpStatus.OK);
         } catch (Exception e) {
@@ -92,4 +92,8 @@ public class PersonaController {
             return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+
+
 }
